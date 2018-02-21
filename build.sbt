@@ -9,8 +9,9 @@ lazy val `explicit-ask` =
     .settings(settings)
     .settings(
       libraryDependencies ++= Seq(
-        library.scalaCheck % Test,
-        library.utest      % Test
+        library.akkaActor,
+        library.junit      % Test,
+        library.junitIf    % Test
       )
     )
 
@@ -21,11 +22,13 @@ lazy val `explicit-ask` =
 lazy val library =
   new {
     object Version {
-      val scalaCheck = "1.13.5"
-      val utest      = "0.6.3"
+      val akka    = "2.5.9"
+      val junit   = "4.12"
+      val junitIf = "0.11"
     }
-    val scalaCheck = "org.scalacheck" %% "scalacheck" % Version.scalaCheck
-    val utest      = "com.lihaoyi"    %% "utest"      % Version.utest
+    val akkaActor = "com.typesafe.akka" %% "akka-actor"     % Version.akka
+    val junit     = "junit"             %  "junit"          % Version.junit
+    val junitIf   = "com.novocode"      % "junit-interface" % Version.junitIf
   }
 
 // *****************************************************************************
@@ -34,7 +37,8 @@ lazy val library =
 
 lazy val settings =
   commonSettings ++
-  scalafmtSettings
+  scalafmtSettings ++
+  publishSettings
 
 lazy val commonSettings =
   Seq(
@@ -54,11 +58,24 @@ lazy val commonSettings =
       "-Ywarn-unused-import"
     ),
     Compile / unmanagedSourceDirectories := Seq((Compile / scalaSource).value),
-    Test / unmanagedSourceDirectories := Seq((Test / scalaSource).value),
+    Test / unmanagedSourceDirectories := Seq((Test / javaSource).value),
     testFrameworks += new TestFramework("utest.runner.Framework")
 )
 
 lazy val scalafmtSettings =
   Seq(
     scalafmtOnCompile := true
+  )
+
+lazy val publishSettings =
+  Seq(
+    homepage := Some(url("https://github.com/hseeberger/explicit-ask")),
+    scmInfo := Some(ScmInfo(url("https://github.com/hseeberger/explicit-ask"),
+                            "git@github.com:hseeberger/explicit-ask.git")),
+    developers += Developer("hseeberger",
+                            "Heiko Seeberger",
+                            "mail@heikoseeberger.rocks",
+                            url("https://github.com/hseeberger")),
+    pomIncludeRepository := (_ => false),
+    bintrayPackage := "akka-http-json"
   )
