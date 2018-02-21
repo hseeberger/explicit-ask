@@ -76,6 +76,5 @@ lazy val publishSettings =
                             "Heiko Seeberger",
                             "mail@heikoseeberger.rocks",
                             url("https://github.com/hseeberger")),
-    pomIncludeRepository := (_ => false),
-    bintrayPackage := "akka-http-json"
+    pomIncludeRepository := (_ => false)
   )

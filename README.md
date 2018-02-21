@@ -1,6 +1,14 @@
-# explicit-ask #
+# ExplicitAsk #
 
-Welcome to explicit-ask!
+This is a very little library providing a workaround for an issue with 
+[PatternCS.ask](https://github.com/akka/akka/issues/24587). Only needed until the issue is fixed
+in Akka.
+
+## Dependency configuration
+
+- Group ID: rocks.heikoseeberger
+- Artifact ID: explicit-ask 
+- Version: 1.0.0
 
 ## Contribution policy ##
 
