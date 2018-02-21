@@ -10,6 +10,25 @@ in Akka.
 - Artifact ID: explicit-ask 
 - Version: 1.0.0
 
+## Usage
+
+Here's a snippet from the tests which hopefully is self explanatory:
+
+``` java
+final String expected = "hello";
+
+final ActorRef echo = system.actorOf(Props.create(Echo.class));
+final CompletionStage<String> response = ExplicitAsk
+        .explicitAsk(
+                echo,
+                replyTo -> new Echo.Message(expected, replyTo),
+                Timeout.apply(1, SECONDS))
+        .thenApply(o -> (String)o);
+
+final String actual = response.toCompletableFuture().get(1, SECONDS);
+assertEquals(expected, actual);
+```
+
 ## Contribution policy ##
 
 Contributions via GitHub pull requests are gladly accepted from their original author. Along with

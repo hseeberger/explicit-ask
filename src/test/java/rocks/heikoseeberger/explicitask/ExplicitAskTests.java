@@ -72,7 +72,7 @@ public final class ExplicitAskTests {
                         echo,
                         replyTo -> new Echo.Message(expected, replyTo),
                         Timeout.apply(1, SECONDS))
-                .thenApply(Object::toString);
+                .thenApply(o -> (String)o);
 
         final String actual = response.toCompletableFuture().get(1, SECONDS);
         assertEquals(expected, actual);
